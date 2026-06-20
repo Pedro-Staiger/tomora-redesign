@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tomora | Dashboard</title>
+
+    <link rel="stylesheet" href="../../css/dashboard.css">
+
+    <script type="text/javascript" src="../../js/dashboard.js" defer></script>
+
+    <!--Fonte Sora-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+    <!--Fonte Plus Jakarta Sans-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Tomora</h1>
+        <ul class="nav-menu">
+            <li class="menu-item"><a href="../../index.html">Home</a></li>
+            <li class="menu-item"><a href="../login/login.html">Login</a></li>
+            <li class="menu-item"><a href="../cadastro/cadastro.html">Cadastre-se</a></li>
+            <li class="menu-item"><a href="../download/download.html">Download</a></li>
+        </ul>
+    </header>
+    <main>
+        <section class="dashboard-section">
+            <div class="dashboard-header">
+                <h1 id="txt-user-message">Olá, ...</h1>
+                <p>Aqui está seu resumo de hoje</p>
+            </div>
+            <div class="dashboard-cards">
+                <div class="card">
+                    <h3>Total de Lembretes</h3>
+                    <h2 id="txt-total-lembretes">0</h2>
+                    <p>Ativos hoje</p>
+                </div>
+                <div class="card">
+                    <h3>Doses tomadas</h3>
+                    <h2 id="txt-doses-tomadas">0</h2>
+                    <p>Nos últimos dias</p>
+                </div>
+                <div class="card">
+                    <h3>Taxa de adesão</h3>
+                    <h2 id="txt-taxa-adesao">0%</h2>
+                    <p id="txt-taxa-adesao-desc">Avaliação da consistência</p>
+                </div>
+                <div class="card">
+                    <h3>Doses perdidas</h3>
+                    <h2 id="txt-doses-perdidas">0</h2>
+                    <p>Nos últimos dias</p>
+                </div>
+            </div>
+            <div class="lembretes-historicos">
+                <div class="lembretes-section">
+                    <div class="lembretes-header">
+                        <h2>Lembretes cadastrados</h2>
+                    </div>
+                    <div class="lembretes">
+                    </div>
+                </div>
+                <div class="historicos-section">
+                    <div class="lembretes-header">
+                        <h2>Histórico recente</h2>
+                    </div>
+                    <div class="historicos">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <h2><b>Tomora</b> © Saúde Pontual — 2025</h2>
+    </footer>
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>Novo lembrete</h2>
+                <button class="modal-close" id="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+
+            <form id="form-lembrete">
+                <div class="input-container">
+                    <label>Nome do medicamento</label>
+                    <input type="text" id="input-nome" placeholder="Ex: Rivotril">
+                </div>
+
+                <div class="input-container">
+                    <label>Dosagem</label>
+                    <input type="text" id="input-dosagem" placeholder="Ex: 0.5mg">
+                </div>
+
+                <div class="input-container">
+                    <label>Horário</label>
+                    <input type="time" id="input-horario">
+                </div>
+
+                <div class="input-container">
+                    <label>Descrição (opcional)</label>
+                    <input type="text" id="input-descricao" placeholder="Ex: Após o jantar">
+                </div>
+
+                <button type="button" class="btn-submit" onclick="createReminder()">Criar lembrete</button>
+                <div class="form-status">
+                    <p id="alert-field"></p>
+                    <div class="loader"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

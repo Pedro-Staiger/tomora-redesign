@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tomora | Cadastro</title>
+
+    <link rel="stylesheet" href="../../css/cadastro.css">
+
+    <script type="text/javascript" src="../../js/cadastro.js" defer></script>
+
+    <!--Fonte Sora-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+    <!--Fonte Plus Jakarta Sans-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Tomora</h1>
+        <ul class="nav-menu">
+            <li class="menu-item"><a href="../../index.html">Home</a></li>
+            <li class="menu-item"><a href="../login/login.html">Login</a></li>
+            <li class="menu-item active"><a href="cadastro.html">Cadastre-se</a></li>
+            <li class="menu-item"><a href="../download/download.html">Download</a></li>
+        </ul>
+    </header>
+    <main>
+        <section class="cadastro-section">
+            <h2>Cadastrar</h2>
+            <p>Já tem uma conta? <a href="../login/login.html">Faça login</a></p>
+            <form class="cadastro-form" autocomplete="off">
+                <div class="tipos-conta">
+                    <div id="tipo-medicado" class="tipo-conta active" onclick="selectAccountType(this, 'medicado')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-pill-bottle-icon lucide-pill-bottle">
+                            <path d="M18 11h-4a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h4" />
+                            <path d="M6 7v13a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7" />
+                            <rect width="16" height="5" x="4" y="2" rx="1" />
+                        </svg>
+                        <h3>Paciente</h3>
+                    </div>
+                    <div id="tipo-auxiliar" class="tipo-conta inactive" onclick="selectAccountType(this, 'auxiliar')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-stethoscope-icon lucide-stethoscope">
+                            <path d="M11 2v2" />
+                            <path d="M5 2v2" />
+                            <path d="M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1" />
+                            <path d="M8 15a6 6 0 0 0 12 0v-3" />
+                            <circle cx="20" cy="10" r="2" />
+                        </svg>
+                        <h3>Cuidador</h3>
+                    </div>
+                </div>
+                <h3 class="label">Nome</h3>
+                <div class="input-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-user-icon lucide-user">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    <input id="input-name" type="text" placeholder="Digite seu nome completo">
+                </div>
+                <h3 class="label">E-mail</h3>
+                <div class="input-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-mail-icon lucide-mail">
+                        <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" />
+                        <rect x="2" y="4" width="20" height="16" rx="2" />
+                    </svg>
+                    <input id="input-email" type="text" placeholder="Digite seu e-mail">
+                </div>
+                <h3 class="label">Senha</h3>
+                <div class="input-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-lock-icon lucide-lock">
+                        <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                    <input id="input-password" type="password" placeholder="Digite sua senha">
+                    <svg id="password-toggle" onclick="setPasswordVisibility(this)" xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-eye-off-icon lucide-eye-off">
+                        <path
+                            d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" />
+                        <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
+                        <path
+                            d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" />
+                        <path d="m2 2 20 20" />
+                    </svg>
+                </div>
+                <button type="button" onclick="cadastro()">Entrar</button>
+                <div class="form-status">
+                    <p class="alert-field"></p>
+                    <div class="loader"></div>
+                </div>
+            </form>
+        </section>
+        <section class="info-section">
+            <h2>Por que escolher o Tomora?</h2>
+            <p>Crie sua conta rapidamente e configure seus lembretes com facilidade.</p>
+            <ul>
+                <li>
+                    <div class="icon-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-zap-icon lucide-zap">
+                            <path
+                                d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Configuração em minutos</h3>
+                        <p>Cadastre seus medicamentos rapidamente e comece a receber lembretes hoje mesmo.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-bell-icon lucide-bell">
+                            <path d="M10.268 21a2 2 0 0 0 3.464 0" />
+                            <path
+                                d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Alertas que funcionam</h3>
+                        <p>Sistema multicamadas que garante que você não perca nenhuma dose importante.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-rss-icon lucide-rss">
+                            <path d="M4 11a9 9 0 0 1 9 9" />
+                            <path d="M4 4a16 16 0 0 1 16 16" />
+                            <circle cx="5" cy="19" r="1" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Sincronização entre todos os dispositivos</h3>
+                        <p>Atualize seu histórico de doses em tempo real, independentemente do dispositivo que estiver
+                            usando.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-banknote-x-icon lucide-banknote-x">
+                            <path d="M13 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5" />
+                            <path d="m17 17 5 5" />
+                            <path d="M18 12h.01" />
+                            <path d="m22 17-5 5" />
+                            <path d="M6 12h.01" />
+                            <circle cx="12" cy="12" r="2" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Sempre gratuito</h3>
+                        <p>Todas as funcionalidades essenciais sem custos. Saúde não deve ter barreiras.</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </main>
+</body>
+
+</html>

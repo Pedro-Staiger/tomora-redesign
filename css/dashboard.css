@@ -1,0 +1,941 @@
+:root {
+    --bg-base: #1a2638;
+    --bg-surface: #1f2f42;
+    --bg-nav: rgba(26, 38, 56, 0.90);
+    --bg-card: rgba(255, 255, 255, 0.04);
+    --bg-card-hover: rgba(255, 255, 255, 0.07);
+    --bg-support: rgba(255, 255, 255, 0.015);
+    --bg-input: rgba(255, 255, 255, 0.04);
+    --bg-input-focus: rgba(145, 113, 232, 0.05);
+    --bg-auth-left: rgba(145, 113, 232, 0.06);
+    --bg-reg-right: rgba(110, 198, 189, 0.03);
+    --bg-badge: rgba(145, 113, 232, 0.12);
+    --bg-panel-badge: rgba(145, 113, 232, 0.15);
+    --bg-type-selected: rgba(145, 113, 232, 0.10);
+    --bg-white: #ffffff;
+
+    --purple: #9171e8;
+    --purple-light: #b9a1f5;
+    --teal: #6ec6bd;
+    --teal-light: #9de0d8;
+    --blue-icon: #4a88a8;
+    --blue-cap: #4a9db5;
+    --amber: #f59e0b;
+
+    --green: #4ade80;
+    --green-bg: rgba(74, 222, 128, 0.10);
+    --green-border: rgba(74, 222, 128, 0.25);
+    --red: #f87171;
+    --red-bg: rgba(248, 113, 113, 0.10);
+    --red-border: rgba(248, 113, 113, 0.25);
+
+    --text-primary: #e8eef5;
+    --text-secondary: #8ba3be;
+    --text-muted: #4a6580;
+    --text-white: #ffffff;
+    --text-black: #000000;
+    --text-on-teal: #1a2638;
+
+    --border: rgba(255, 255, 255, 0.09);
+    --border-accent: rgba(167, 139, 250, 0.30);
+
+    --gradient-brand:
+        linear-gradient(135deg, #b9a1f5, #6ec6bd);
+
+    --gradient-brand-inv:
+        linear-gradient(135deg, #6ec6bd, #b9a1f5);
+
+    --gradient-avatar-1:
+        linear-gradient(135deg, #9171e8, #6ec6bd);
+
+    --gradient-avatar-2:
+        linear-gradient(135deg, #6ec6bd, #9171e8);
+
+    --gradient-avatar-3:
+        linear-gradient(135deg, #f59e0b, #9171e8);
+
+    --gradient-mission:
+        linear-gradient(135deg,
+            rgba(145, 113, 232, 0.12),
+            rgba(110, 198, 189, 0.08));
+
+    --gradient-bg-index:
+        radial-gradient(ellipse 80% 60% at 50% -10%,
+            rgba(145, 113, 232, 0.14) 0%,
+            transparent 60%);
+
+    --gradient-bg-login:
+        radial-gradient(ellipse 60% 60% at 30% 50%,
+            rgba(145, 113, 232, 0.10) 0%,
+            transparent 60%),
+        radial-gradient(ellipse 50% 50% at 70% 50%,
+            rgba(110, 198, 189, 0.08) 0%,
+            transparent 60%);
+
+    --gradient-bg-cadastro:
+        radial-gradient(ellipse 60% 60% at 70% 50%,
+            rgba(110, 198, 189, 0.10) 0%,
+            transparent 60%);
+
+    --gradient-bg-download:
+        radial-gradient(ellipse 70% 50% at 50% 40%,
+            rgba(145, 113, 232, 0.12) 0%,
+            transparent 60%);
+
+    --gradient-bg-sobre:
+        radial-gradient(ellipse 80% 50% at 50% 0%,
+            rgba(110, 198, 189, 0.10) 0%,
+            transparent 60%);
+
+    --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.40);
+    --shadow-glow: 0 0 40px rgba(145, 113, 232, 0.18);
+    --shadow-btn-purple: 0 8px 24px rgba(145, 113, 232, 0.35);
+    --shadow-btn-teal: 0 8px 24px rgba(110, 198, 189, 0.30);
+
+    --blur-nav: blur(20px);
+    --blur-card: blur(10px);
+
+    --font-display: 'Sora', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-xl: 32px;
+    --radius-full: 9999px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+*::selection {
+    background-color: var(--purple);
+    color: var(--text-white);
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    scrollbar-width: none;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 50px;
+
+    background-color: var(--bg-base);
+    background-image: var(--gradient-bg-index);
+    background-repeat: no-repeat;
+}
+
+header {
+    width: 100%;
+    padding: 20px 40px;
+
+    position: fixed;
+    z-index: 300;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: var(--bg-nav);
+    backdrop-filter: var(--blur-nav);
+    -webkit-backdrop-filter: var(--blur-nav);
+}
+
+header h1 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 25px;
+
+    color: var(--text-primary);
+}
+
+header .nav-menu {
+    display: flex;
+    gap: 30px;
+}
+
+header .menu-item {
+    list-style: none;
+}
+
+header .menu-item a {
+    display: inline-block;
+
+    padding: 10px 15px;
+
+    font-family: var(--font-body);
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 15px;
+
+    text-decoration: none;
+
+    color: var(--text-secondary);
+
+    border-radius: 12px;
+
+    transition: 0.3s ease-out;
+}
+
+header .menu-item a:hover {
+    background-color: var(--bg-card-hover);
+    color: var(--text-primary);
+}
+
+header .nav-menu .active a {
+    background-color: var(--bg-card-hover);
+    color: var(--purple);
+}
+
+main {
+    width: 100%;
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 100px;
+}
+
+.dashboard-section {
+    width: 95%;
+    height: auto;
+
+    margin-top: 120px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.dashboard-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+
+.dashboard-header h1 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 30px;
+
+    color: var(--text-primary);
+}
+
+.dashboard-header p {
+    font-family: var(--font-body);
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+
+    color: var(--text-secondary);
+}
+
+.dashboard-cards {
+    width: 100%;
+    height: auto;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    padding: 20px 30px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 10px;
+
+    background-color: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+
+    transition: 0.3s ease-out;
+}
+
+.card:hover {
+    background-color: var(--bg-card-hover);
+
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    opacity: 0.5;
+
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 16px;
+
+    color: var(--text-secondary);
+}
+
+.card h2 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 28px;
+
+    color: var(--text-primary);
+}
+
+#txt-total-lembretes {
+    color: var(--purple-light);
+}
+
+#txt-doses-tomadas {
+    color: var(--teal-light);
+}
+
+#txt-taxa-adesao {
+    color: var(--green);
+}
+
+#txt-doses-perdidas {
+    color: var(--red);
+}
+
+.card p {
+    font-family: var(--font-body);
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+
+    color: var(--text-secondary);
+}
+
+.lembretes-historicos {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: start;
+    gap: 20px;
+}
+
+.lembretes-section {
+    width: 40%;
+
+    height: 400px;
+    max-height: 400px;
+
+    padding: 20px 30px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 25px;
+
+    background-color: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+}
+
+.lembretes {
+    width: 100%;
+    height: auto;
+
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+}
+
+.lembrete-card {
+    width: 100%;
+    height: auto;
+
+    padding: 20px 30px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+
+    background-color: var(--bg-card-hover);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+
+    transition: 0.2s ease-out;
+}
+
+.lembrete-card:hover {
+    background-color: var(--bg-card);
+    border-color: var(--border-accent);
+}
+
+.lembrete-card .card-ball {
+    width: 12px;
+    height: 12px;
+
+    background-color: var(--blue-icon);
+    border-radius: 50%;
+}
+
+.lembrete-card .card-info {
+    width: auto;
+    height: auto;
+
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 5px;
+}
+
+.lembrete-card h3 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 16px;
+
+    color: var(--text-primary);
+
+    text-align: start;
+    text-transform: uppercase;
+}
+
+.lembrete-card p {
+    font-family: var(--font-body);
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+
+    color: var(--text-secondary);
+
+    text-align: start;
+}
+
+.lembrete-card b {
+    color: var(--teal);
+}
+
+.lembrete-card .btn-delete {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+
+    color: var(--text-muted);
+    cursor: pointer;
+
+    transition: 0.2s ease-out;
+}
+
+.lembrete-card .btn-delete:hover {
+    border-color: var(--red-border);
+    background: var(--red-bg);
+    color: var(--red);
+}
+
+.lembrete-card .btn-delete svg {
+    stroke: currentColor;
+}
+
+.btn-add-lembrete {
+    width: 100%;
+    height: auto;
+
+    padding: 20px 30px;
+
+    background: none;
+    border: 3px dashed var(--purple);
+    border-radius: var(--radius-sm);
+
+    font-family: var(--font-body);
+    font-size: 16px;
+    color: var(--purple);
+
+    transition: 0.3s ease-out;
+}
+
+.btn-add-lembrete:hover {
+    cursor: pointer;
+    background: var(--purple-bg);
+    border-color: var(--purple-light);
+    color: var(--purple-light);
+}
+
+.historicos-section {
+    width: 60%;
+
+    height: 400px;
+    max-height: 400px;
+
+    padding: 20px 30px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 25px;
+
+    background-color: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+}
+
+.historicos {
+    width: 100%;
+    height: auto;
+
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+}
+
+.historico-card {
+    width: 100%;
+    height: auto;
+
+    padding: 10px 0;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+
+    border-bottom: 2px solid var(--border);
+
+    transition: 0.2s ease-out;
+}
+
+.historico-card:hover {
+    border-color: var(--border-accent);
+    transform: translateY(-3px);
+}
+
+.historico-card .historico-status {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.historico-card .historico-status.taken {
+    background: var(--green-bg);
+    border: 1px solid var(--green-border);
+    color: var(--green);
+}
+
+.historico-card .historico-status.missed {
+    background: var(--red-bg);
+    border: 1px solid var(--red-border);
+    color: var(--red);
+}
+
+.historico-card .historico-status svg {
+    stroke: currentColor;
+}
+
+.historico-card .card-info {
+    width: auto;
+    height: auto;
+
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 2px;
+}
+
+.historico-card .card-info h3 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 14px;
+
+    color: var(--text-primary);
+
+    text-align: start;
+    text-transform: uppercase;
+}
+
+.historico-card .card-info p {
+    font-family: var(--font-body);
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+
+    color: var(--text-secondary);
+
+    text-align: start;
+}
+
+.historico-card b {
+    opacity: 45%;
+    color: var(--text-secondary);
+}
+
+.historico-card .status-text {
+    width: auto;
+    height: auto;
+
+    padding: 4px 12px;
+    border-radius: var(--radius-md);
+
+    font-family: var(--font-body);
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 12px;
+
+    text-align: start;
+}
+
+.historico-card .status-text.taken {
+    color: var(--green);
+    background-color: var(--green-bg);
+    border: 2px solid var(--green-border);
+}
+
+.historico-card .status-text.missed {
+    color: var(--red);
+    background-color: var(--red-bg);
+    border: 2px solid var(--red-border);
+}
+
+.lembretes-section h2,
+.historicos-section h2 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 18px;
+
+    color: var(--text-primary);
+}
+
+.lembretes,
+.historicos {
+    scrollbar-width: none;
+}
+
+footer {
+    width: 100%;
+    padding: 20px 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--bg-nav);
+    backdrop-filter: opacity(30%);
+}
+
+footer h2 {
+    font-family: var(--font-body);
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 16px;
+
+    color: var(--text-secondary);
+}
+
+footer h2 b {
+    color: var(--purple);
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+
+    display: none;
+    /* alternado via JS */
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(0, 0, 0, 0.55);
+    backdrop-filter: var(--blur-card);
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-card {
+    width: 90%;
+    max-width: 420px;
+
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    background-color: var(--bg-surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+
+    animation: modal-in 0.25s ease-out;
+}
+
+@keyframes modal-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--text-primary);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: var(--text-primary);
+}
+
+#form-lembrete {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.input-container {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 8px;
+}
+
+.input-container label {
+    font-family: var(--font-body);
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+
+    color: var(--text-secondary);
+
+    text-align: start;
+}
+
+.input-container input {
+    width: 100%;
+    height: 40px;
+
+    padding: 8px;
+
+    outline: none;
+
+    background-color: var(--bg-input);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+
+    font-family: var(--font-body);
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+
+    color: var(--text-primary);
+
+    transition: 0.25s ease-out;
+}
+
+.input-container input:focus {
+    background-color: var(--bg-input-focus);
+    border-color: var(--border-accent);
+}
+
+.input-container input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1); /* deixa branco — útil pra tema escuro */
+    cursor: pointer;
+    opacity: 0.7;
+    transition: 0.2s ease-out;
+}
+
+.input-container input[type="time"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+}
+
+.btn-submit {
+    padding: 14px;
+    background: var(--purple);
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--text-white);
+    font-family: var(--font-body);
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s ease-out;
+}
+
+.btn-submit:hover {
+    background: var(--purple-light);
+    box-shadow: var(--shadow-btn-purple);
+}
+
+.form-status {
+    width: 100%;
+    height: auto;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-status #alert-field {
+    font-family: var(--font-body);
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+
+    color: var(--text-primary);
+}
+
+.loader {
+    width: 20px;
+    height: 20px;
+
+    opacity: 0;
+
+    border: 3px solid var(--purple);
+    border-top-color: var(--border);
+    border-radius: 50%;
+}
+
+.loader.loading {
+    opacity: 1;
+    animation: spin 1.2s ease-out forwards infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 767px) {
+    header {
+        padding: 15px 20px;
+    }
+
+    header h1 {
+        font-family: var(--font-display);
+        font-optical-sizing: auto;
+        font-weight: 800;
+        font-style: normal;
+        font-size: 16px;
+
+        color: var(--text-primary);
+    }
+
+    header .nav-menu {
+        gap: 5px;
+    }
+
+    header .menu-item a {
+        padding: 5px 10px;
+
+        font-size: 10px;
+    }
+
+    .lembrete-card .card-info h3,
+    .historico-card .card-info h3 {
+        font-size: 12px;
+    }
+
+    .lembrete-card .card-info p,
+    .historico-card .card-info p {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .lembretes-historicos {
+        flex-direction: column;
+    }
+
+    .lembretes-section, .historicos-section {
+        width: 100%;
+    }
+}
