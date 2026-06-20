@@ -181,7 +181,6 @@ function getUserHistorics() {
         return response.json(); // aqui transforma a resposta em JSON
     })
         .then(data => {
-            console.log('Dados recebidos:', data); // aqui tem os dados reais do backend
             buildHistoric(data)
         })
         .catch(error => {
