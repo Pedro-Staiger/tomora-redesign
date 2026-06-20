@@ -105,6 +105,15 @@
     --radius-full: 9999px;
 }
 
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 750ms;
+}
+
 .scroll-hidden-scale {
     opacity: 0;
     transform: scale(0.75);
