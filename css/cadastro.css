@@ -116,6 +116,7 @@
     color: var(--text-white);
 }
 
+/*
 @view-transition {
   navigation: auto;
 }
@@ -124,6 +125,7 @@
 ::view-transition-new(root) {
   animation-duration: 750ms;
 }
+*/
 
 html,
 body {
