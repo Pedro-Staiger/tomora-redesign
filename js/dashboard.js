@@ -1,29 +1,70 @@
-const serverUrl = "https://tomora.onrender.com";
+const serverUrl = "https://tomora-server-remake.onrender.com";
 
-async function getUserData() {
-    if (!localStorage.getItem("userId")) {
+// Guarda o prefixo de rota atual: "/api/auth" (própria conta, MEDICADO)
+// ou "/api/auth/patients/:id" (conta de um paciente, AUXILIAR).
+// Preenchido em getData() e reutilizado por createReminder/deleteReminder.
+let currentBasePath = null;
+
+async function getData() {
+    const token = localStorage.getItem("accessToken");
+
+    if (!token) {
         window.location.href = "../login/login.html";
         return;
     }
 
-    const id = localStorage.getItem("userId");
+    currentBasePath = await getUserData(token);
 
+    if (!currentBasePath) return; // AUXILIAR sem nenhum paciente vinculado, por exemplo
+
+    await getReminders(token, currentBasePath);
+    await getUserHistorics(token, currentBasePath);
+}
+
+// Retorna o "basePath" a ser usado nas próximas requisições, de acordo com o role.
+async function getUserData(token) {
     try {
-        const response = await fetch(serverUrl + "/usersSearch", {
-            method: "POST",
+        const response = await fetch(serverUrl + "/api/auth/me", {
+            method: "GET",
             headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                id: id
-            })
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
         });
-        const data = await response.json();
-        setUserName(data.name);
-        localStorage.setItem("linkedId", data.linkedId);
-        return data;
+
+        if (!response.ok) throw new Error("Falha ao buscar dados do usuário");
+
+        const { user } = await response.json();
+        setUserName(user.name);
+
+        if (user.role === "MEDICADO") {
+            return "/api/auth"; // usa as rotas da própria conta
+        }
+
+        // AUXILIAR: busca os pacientes vinculados e usa o primeiro deles.
+        // Se seu app permitir escolher entre vários pacientes, é aqui que
+        // entraria um seletor em vez de pegar sempre patients[0].
+        const patientsResponse = await fetch(serverUrl + "/api/auth/patients", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (!patientsResponse.ok) throw new Error("Falha ao buscar pacientes vinculados");
+
+        const { data: patients } = await patientsResponse.json();
+
+        if (!patients || patients.length === 0) {
+            console.warn("Nenhum paciente vinculado a esta conta AUXILIAR.");
+            return null;
+        }
+
+        return `/api/auth/patients/${patients[0].id}`;
     } catch (error) {
         console.error("Erro:", error);
+        return null;
     }
 }
 
@@ -33,32 +74,23 @@ function setUserName(name) {
     userNameElement.textContent = `Olá, ${nameWithFirstLetterCapitalized}!👋`;
 }
 
-function getUserReminders() {
-    if (!localStorage.getItem("userId")) {
-        window.location.href = "../login/login.html";
-        return;
-    }
-
-    const id = localStorage.getItem("userId");
-
-    fetch(serverUrl + "/remindersSearch", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json' // avisar que o corpo é JSON
-        },
-        body: JSON.stringify({ searchId: id })
-    }).then(response => {
-        if (!response.ok) {
-            throw new Error('Erro na requisição: ' + response.status);
-        }
-        return response.json(); // aqui transforma a resposta em JSON
-    })
-        .then(data => {
-            buildReminders(data);
-        })
-        .catch(error => {
-            console.error('Erro:', error);
+async function getReminders(token, basePath) {
+    try {
+        const response = await fetch(serverUrl + basePath + "/reminder", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
         });
+
+        if (!response.ok) throw new Error("Falha ao buscar lembretes");
+
+        const { data } = await response.json();
+        buildReminders(data);
+    } catch (error) {
+        console.error("Erro:", error);
+    }
 }
 
 function buildReminders(reminders) {
@@ -88,7 +120,7 @@ function buildReminders(reminders) {
 
         const cardTimeContainer = document.createElement("p");
         const cardTime = document.createElement("b");
-        cardTime.textContent = reminder.hour;
+        cardTime.textContent = reminder.time; // era reminder.hour — o backend usa "time"
         cardTimeContainer.appendChild(cardTime);
 
         const btnDelete = document.createElement("button");
@@ -138,54 +170,45 @@ function deleteReminder(reminderId) {
         return;
     }
 
-    fetch(serverUrl + "/remindersDelete", {
-        method: "POST",
+    const token = localStorage.getItem("accessToken");
+
+    fetch(serverUrl + currentBasePath + "/reminder/" + reminderId, {
+        method: "DELETE",
         headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ id: reminderId })
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
     })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Erro na requisição: ' + response.status);
+                throw new Error("Erro na requisição: " + response.status);
             }
-            return response.json();
-        })
-        .then(() => {
+            // DELETE retorna 204 No Content — não tem corpo, então não dá .json() aqui
             window.location.reload();
         })
         .catch(error => {
-            console.error('Erro:', error);
+            console.error("Erro:", error);
             alert("Erro ao deletar lembrete. Verifique se ele realmente existe.");
         });
 }
 
-function getUserHistorics() {
-    if (!localStorage.getItem("userId")) {
-        window.location.href = "../login/login.html";
-        return;
-    }
-
-    const id = localStorage.getItem("userId");
-
-    fetch(serverUrl + "/historySearch", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json' // avisar que o corpo é JSON
-        },
-        body: JSON.stringify({ searchId: id })
-    }).then(response => {
-        if (!response.ok) {
-            throw new Error('Erro na requisição: ' + response.status);
-        }
-        return response.json(); // aqui transforma a resposta em JSON
-    })
-        .then(data => {
-            buildHistoric(data)
-        })
-        .catch(error => {
-            console.error('Erro:', error);
+async function getUserHistorics(token, basePath) {
+    try {
+        const response = await fetch(serverUrl + basePath + "/history", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
         });
+
+        if (!response.ok) throw new Error("Falha ao buscar histórico");
+
+        const { data } = await response.json();
+        buildHistoric(data);
+    } catch (error) {
+        console.error("Erro:", error);
+    }
 }
 
 function buildHistoric(historic) {
@@ -228,13 +251,14 @@ function buildHistoric(historic) {
         recordInfo.classList.add("card-info");
 
         const recordTitle = document.createElement("h3");
-        recordTitle.textContent = record.name;
-
-        const recordDesc = document.createElement("p");
-        recordDesc.textContent = `Lembrete: ${record.reminderId}`;
+        // A tabela History só guarda reminderId, não o nome do remédio.
+        // Pra mostrar o nome de verdade, a API precisaria devolver isso
+        // junto (join com Reminder) — por ora, mostra o id.
+        recordTitle.textContent = record.reminderId
+            ? `Lembrete #${record.reminderId}`
+            : "Lembrete";
 
         recordInfo.appendChild(recordTitle);
-        recordInfo.appendChild(recordDesc);
 
         recordCard.appendChild(recordStatus);
         recordCard.appendChild(recordInfo);
@@ -245,7 +269,7 @@ function buildHistoric(historic) {
     document.querySelector("#txt-doses-tomadas").textContent = takenCount;
     document.querySelector("#txt-doses-perdidas").textContent = missedCount;
 
-    let taxaAdesao = (takenCount / historic.length) * 100;
+    const taxaAdesao = historic.length > 0 ? (takenCount / historic.length) * 100 : 0;
     document.querySelector("#txt-taxa-adesao").textContent = taxaAdesao.toFixed(1) + "%";
 }
 
@@ -304,25 +328,20 @@ function createReminder() {
     alertField.textContent = "";
 
     const loader = document.querySelector(".loader");
-
-    let userId = localStorage.getItem("linkedId");
-
-    if (!userId || userId === "" || userId === "null" || userId === null) {
-        userId = localStorage.getItem("userId");
-    }
+    const token = localStorage.getItem("accessToken");
 
     const name = document.getElementById("input-nome").value;
     const dosage = document.getElementById("input-dosagem").value;
-    const hour = document.getElementById("input-horario").value;
+    const time = document.getElementById("input-horario").value;
     const desc = document.getElementById("input-descricao").value;
 
-    if (!name || !dosage || !hour) {
+    if (!name || !dosage || !time) {
         alertField.style.color = "var(--red)";
         alertField.textContent = "Por favor, preencha os campos obrigatórios";
         return;
     }
 
-    if (name.length > 30 || dosage.length > 15 || hour.length > 5 || desc.length > 30) {
+    if (name.length > 30 || dosage.length > 15 || time.length > 5 || desc.length > 30) {
         alertField.style.color = "var(--red)";
         alertField.textContent = "Quantidade de caracteres excedida";
         return;
@@ -331,28 +350,26 @@ function createReminder() {
     alertField.textContent = "Carregando...";
     loader.classList.add("loading");
 
-    const novoLembrete = { name, userId, dosage, desc, hour }
+    // userId não é enviado — a API pega isso do token (req.targetUserId)
+    const novoLembrete = { name, dosage, desc, time };
 
-    fetch(serverUrl + "/remindersCreate", {
+    fetch(serverUrl + currentBasePath + "/reminder", {
         method: "POST",
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify(novoLembrete)
     })
         .then(response => {
             if (!response.ok) {
                 throw new Error("Erro ao criar lembrete");
-
-                loader.classList.remove("loading");
-                alertField.style.color = "var(--red);"
-                alertField.textContent = "Erro ao criar lembrete";
             }
             return response.json();
         })
         .then(() => {
             loader.classList.remove("loading");
-            alertField.style.color = "var(--green);"
+            alertField.style.color = "var(--green)";
             alertField.textContent = "Lembrete criado com sucesso!";
 
             setTimeout(() => {
@@ -363,11 +380,9 @@ function createReminder() {
             console.error("Erro:", error);
 
             loader.classList.remove("loading");
-            alertField.style.color = "var(--red);"
+            alertField.style.color = "var(--red)";
             alertField.textContent = "Erro ao criar lembrete";
         });
 }
 
-getUserData();
-getUserReminders();
-getUserHistorics();
+getData();

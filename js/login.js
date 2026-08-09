@@ -1,4 +1,4 @@
-const serverUrl = "https://tomora.onrender.com";
+const serverUrl = "https://tomora-server-remake.onrender.com";
 
 function setPasswordVisibility(svg) {
     const inputPassword = document.getElementById("input-password");
@@ -59,7 +59,7 @@ function login() {
     alertField.textContent = "Carregando...";
     loader.classList.add("loading");
 
-    fetch(serverUrl + "/usersLogin", {
+    fetch(serverUrl + "/api/login", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -79,7 +79,7 @@ function login() {
             alertField.style.color = "var(--green)";
             alertField.textContent = "Login efetuado com sucesso!";
             loader.classList.remove("loading");
-            localStorage.setItem("userId", data.id);
+            localStorage.setItem("accessToken", data.token);
             setInterval(() => {
                 window.location = "../dashboard/dashboard.html";
             }, 2000)

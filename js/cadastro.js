@@ -1,4 +1,4 @@
-const serverUrl = "https://tomora.onrender.com";
+const serverUrl = "https://tomora-server-remake.onrender.com";
 
 function setPasswordVisibility(svg) {
     const inputPassword = document.getElementById("input-password");
@@ -39,9 +39,9 @@ function getAccountType() {
     const tipoCuidador = document.querySelector("#tipo-auxiliar");
 
     if (tipoPaciente.classList.contains("active")) {
-        return "medicado";
+        return "MEDICADO";
     } else if (tipoCuidador.classList.contains("active")) {
-        return "auxiliar";
+        return "AUXILIAR";
     }
 }
 
@@ -68,9 +68,9 @@ function cadastro() {
     const name = document.querySelector("#input-name").value.trim();
     const email = document.querySelector("#input-email").value.trim();
     const password = document.querySelector("#input-password").value.trim();
-    const accountType = getAccountType();
+    const role = getAccountType();
 
-    if (!name || !email || !password || !accountType) {
+    if (!name || !email || !password || !role) {
         alertField.style.color = "var(--red)";
         alertField.textContent = "Preencha todos os campos";
         return;
@@ -88,27 +88,16 @@ function cadastro() {
         return;
     }
 
-    let isAuxiliar;
-    let isMedicado;
-
-    if (accountType === "medicado") {
-        isAuxiliar = false;
-        isMedicado = true;
-    } else if (accountType === "auxiliar") {
-        isAuxiliar = true;
-        isMedicado = false;
-    }
-
     alertField.style.color = "var(--purple)";
     alertField.textContent = "Carregando...";
     loader.classList.add("loading");
 
-    fetch(serverUrl + "/usersCreate", {
+    fetch(serverUrl + "/api/user", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, name, password, isMedicado, isAuxiliar })
+        body: JSON.stringify({ email, name, password, role })
     })
         .then(response => {
             if (!response.ok) {
